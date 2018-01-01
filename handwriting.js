@@ -57,14 +57,16 @@ function calcDistance(loc1, loc2) {
     return Math.sqrt((loc1.x - loc2.x) * (loc1.x - loc2.x) + (loc1.y - loc2.y) * (loc1.y - loc2.y));
 }
 
+var maxLineWidth = Number($('#size_input').val()) || 30,
+    minLineWidth = 1,
+    maxStrokeV = maxLineWidth / 3,
+    minStrokeV = 0.1,
+    lastStrokeP = 2 / 3,
+    curStrokeP = 1 / 3;
 
 function calcLineWidth(t, s) {
-    var maxLineWidth = Number($('#size_input').val()) || 30,
-        minLineWidth = 1,
-        maxStrokeV = maxLineWidth / 3,
-        minStrokeV = 0.1,
-        lastStrokeP = 2 / 3,
-        curStrokeP = 1 / 3;
+    maxLineWidth = Number($('#size_input').val()) || 30;
+    maxStrokeV = maxLineWidth / 3;
     var v = s / t;
     var resultLineWidth;
     if (v <= minStrokeV) {
@@ -155,5 +157,14 @@ $('.color_btn').click(function(e) {
     $('.color_btn').removeClass('color_btn_selected');
     $(this).addClass('color_btn_selected');
     strokeColor = $(this).css('background-color');
+})
+$('#size_input').keydown(function(e) {
+
+    if (e.keyCode == 13) {
+        $('#size_input').blur();
+        maxLineWidth = Number($('#size_input').val()) || 30;
+        $('#size_input').val(maxLineWidth)
+    }
+
 })
 drawGrid();
